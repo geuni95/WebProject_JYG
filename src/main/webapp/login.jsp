@@ -40,28 +40,12 @@
 			form.pass.focus();
 			return false;
 		}
-		if (form.name.value == ""){
-			alert("이름을 입력하세요.");
-			form.name.focus();
-			return false;
-		}
-		if (form.email.value == ""){
-			alert("이메일을 입력하세요.");
-			form.email.focus();
-			return false;
-		}
-		if (form.phone.value == ""){
-			alert("휴대폰번호를 입력하세요.");
-			form.phone.focus();
-			return false;
-		}
-	}
 	
 </script>
 		<div id="site-content">
 			<div class="site-header">
 				<div class="container">
-					<a href="index.html" id="branding">
+					<a href="index.jsp" id="branding">
 						<img src="images/logo.png" alt="" class="logo">
 						<div class="logo-text">
 							<h1 class="site-title">HTML 게시판</h1>
@@ -73,11 +57,11 @@
 					<div class="main-navigation">
 						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
-							<li class="menu-item current-menu-item"><a href="index.jyg">홈</a></li>
+							<li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
 							<li class="menu-item"><a href="news.html">자유게시판</a></li>
 							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
-							<li class="menu-item"><a href="login.jsp">로그인</a></li>
+							<li class="menu-item current-menu-item"><a href="login.jsp">로그인</a></li>
 							<li class="menu-item"><a href="join.jsp">회원가입</a></li>
 						</ul> <!-- .menu -->
 					</div> <!-- .main-navigation -->
@@ -90,12 +74,12 @@
 				
 				<div class="page">
 					<div class="container">
-						<a href="index.jyg" class="button-back"><img src="images/arrow-back.png" alt="" class="icon">회원가입 취소</a>
+						<a href="index.jyg" class="button-back"><img src="images/arrow-back.png" alt="" class="icon">로그인 취소</a>
 
 						<div class="row">
 							<div class="col-md-8">
 								<div>
-								<img src="images/회원가입.jpg" width = "800"/>
+								<img src="images/login.png" width = "800"/>
 								</div>
 
 								<div class="contact-detail">
@@ -111,18 +95,15 @@
 							</div>
 							<div class="col-md-3 col-md-offset-1">
 								<div class="contact-form">
-									<h2 class="section-title">Join Membership</h2>
-									<p>if you want see board, join us!!</p>
+									<h2 class="section-title">LOGIN</h2>
+									<p>if you want see board, login here!!</p>
 
 									<form name = "joinForm" method = "get" 
 										action="JoinProcess.do" onsubmit="return validateForm(this);">
 										<input type="text" name="id" placeholder="ID..">
 										<input type="text" name="pass" placeholder="Password..">
-										<input type="text" name="name" placeholder="name..">
-										<input type="text" name="email" placeholder="Email..">
-										<input type="text" name="phone" placeholder="Phone..">
 										<p class="text-right">
-											<button type="submit">회원가입하기</button>
+											<button type="submit">로그인</button>
 										</p>
 									</form>
 								</div>

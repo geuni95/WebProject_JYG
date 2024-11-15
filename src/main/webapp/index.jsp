@@ -29,7 +29,7 @@
 		<div id="site-content">
 			<div class="site-header">
 				<div class="container">
-					<a href="index.jyg" id="branding">
+					<a href="index.jsp" id="branding">
 						<img src="images/logo.png" alt="" class="logo">
 						<div class="logo-text">
 							<h1 class="site-title">HTML 게시판</h1>
@@ -41,7 +41,7 @@
 					<div class="main-navigation">
 						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
-							<li class="menu-item current-menu-item"><a href="index.jyg">홈</a></li>
+							<li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
 							<li class="menu-item"><a href="news.html">자유게시판</a></li>
 							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
