@@ -1,3 +1,5 @@
+<%@page import="membership.MemberDTO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,15 +41,28 @@
 
 					<!-- Default snippet for navigation -->
 					<div class="main-navigation">
-						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
-						<ul class="menu">
-							<li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
-							<li class="menu-item"><a href="news.html">자유게시판</a></li>
-							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
-							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
-							<li class="menu-item"><a href="login.jsp">로그인</a></li>
-							<li class="menu-item"><a href="join.jsp">회원가입</a></li>
-						</ul> <!-- .menu -->
+					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+					    <ul class="menu">
+					        <li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
+					        <li class="menu-item"><a href="news.html">자유게시판</a></li>
+					        <li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="project.html">자료실 게시판</a></li>
+					
+					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
+					        <c:choose>
+					            <c:when test="${not empty sessionScope.user}">
+					                <!-- 로그인된 경우 -->
+					                <li class="menu-item current-menu-item"><a href="logout.jsp">로그아웃</a></li>
+                    				<li class="menu-item"><a href="profile.jsp">안녕하세요, ${user.name}님!</a></li>
+					            </c:when>
+					            <c:otherwise>
+					                <!-- 로그인되지 않은 경우 -->
+					                <li class="menu-item"><a href="login.jsp">로그인</a></li>
+					            </c:otherwise>
+					        </c:choose>
+					
+					        <li class="menu-item"><a href="join.jsp">회원가입</a></li>
+					    </ul> <!-- .menu -->
 					</div> <!-- .main-navigation -->
 
 					<div class="mobile-navigation"></div>

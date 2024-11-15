@@ -77,7 +77,18 @@
 							<li class="menu-item"><a href="news.html">자유게시판</a></li>
 							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
-							<li class="menu-item"><a href="login.jsp">로그인</a></li>
+							<%
+				            MemberDTO memberDTO = (MemberDTO) session.getAttribute("user");
+				            if (memberDTO != null) {
+				            %>
+				            	<li class="menu-item current-menu-item"><a href="logout.jsp">로그아웃</a></li>
+				            <%
+				                } else {
+				            %>
+				                <li class="menu-item"><a href="login.jsp">로그인</a></li>
+				            <%
+				                }
+				            %>
 							<li class="menu-item current-menu-item"><a href="join.jsp">회원가입</a></li>
 						</ul> <!-- .menu -->
 					</div> <!-- .main-navigation -->
@@ -95,7 +106,7 @@
 						<div class="row">
 							<div class="col-md-8">
 								<div>
-								<img src="images/회원가입.jpg" width = "800"/>
+								<img src="images/joinus.jpg" width = "700"/>
 								</div>
 
 								<div class="contact-detail">

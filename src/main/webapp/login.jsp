@@ -74,7 +74,7 @@
 				
 				<div class="page">
 					<div class="container">
-						<a href="index.jyg" class="button-back"><img src="images/arrow-back.png" alt="" class="icon">로그인 취소</a>
+						<a href="index.jsp" class="button-back"><img src="images/arrow-back.png" alt="" class="icon">로그인 취소</a>
 
 						<div class="row">
 							<div class="col-md-8">
@@ -98,8 +98,8 @@
 									<h2 class="section-title">LOGIN</h2>
 									<p>if you want see board, login here!!</p>
 
-									<form name = "joinForm" method = "get" 
-										action="JoinProcess.do" onsubmit="return validateForm(this);">
+									<form name = "loginForm" method = "post" 
+										action="LoginProcess.do" onsubmit="return validateForm(this);">
 										<input type="text" name="id" placeholder="ID..">
 										<input type="text" name="pass" placeholder="Password..">
 										<p class="text-right">
