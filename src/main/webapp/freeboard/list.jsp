@@ -22,9 +22,40 @@
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
+		
+    <style>
+        /* 전체 페이지를 화면 크기에 맞게 설정 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
+        /* 헤더 스타일 */
+        header {
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* 메인 콘텐츠 영역 스타일 */
+        main {
+            flex-grow: 1; /* 남은 공간을 모두 채우도록 설정 */
+            padding: 20px;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+   	
 	</head>
-
 
 	<body>
 		
@@ -43,8 +74,8 @@
 					<div class="main-navigation">
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
-					        <li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="index.jsp">홈</a></li>
+					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="project.html">자료실 게시판</a></li>
 					
@@ -69,39 +100,81 @@
 				</div>
 			</div> <!-- .site-header -->
 
-			<div class="hero hero-slider">
-				<ul class="slides">
-					<li data-bg-image="images/board1.jpg">
-						<a href="./list.do"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Free board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/QAboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Q&A board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/downloadboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>download</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-				</ul> <!-- .slides -->
-			</div> <!-- .hero-slider -->
+			<main class="main-content">
+				
+				<div class="page">
+					<div class="container">
+					
+						<h2>자유 게시판</h2>
+						
+						<!-- 검색 폼 -->
+						<form method="get">  
+						<table border="1" width="90%">
+						<tr>
+						    <td align="center">
+						        <select name="searchField">
+						            <option value="title">제목</option>
+						            <option value="content">내용</option>
+						        </select>
+						        <input type="text" name="searchWord" />
+						        <input type="submit" value="검색하기" />
+						    </td>
+						</tr>
+						</table>
+						</form>
+						
+						<table border="1" width="90%">
+						    <tr>
+						        <th width="10%">번호</th>
+						        <th width="*">제목</th>
+						        <th width="15%">작성자</th>
+						        <th width="10%">조회수</th>
+						        <th width="15%">작성일</th>
+						    </tr>
+						<c:choose>
+							<c:when test="${ empty boardLists }">
+						        <tr>
+						            <td colspan="6" align="center">
+						                등록된 게시물이 없습니다^^*
+						            </td>
+						        </tr>
+						    </c:when>
+						    <c:otherwise>
+						    	<c:forEach items="${ boardLists }" var="row" varStatus="loop">
+						    	<tr align="center">
+		    		<td>
+		    			${ map.totalCount - (((map.pageNum-1) * map.pageSize)
+		    				 + loop.index) }
+		    		</td>
+						    		<td align="left">
+						    			<a href="./view.do?idx=${ row.idx }">
+						    				${ row.title }</a>
+						    		</td>
+						    		<td>${ row.id }</td>
+						    		<td>${ row.visitcount }</td>
+						    		<td>${ row.postdate }</td>
+						    	</tr>
+						       	</c:forEach>
+						   	</c:otherwise>
+						</c:choose>
+						</table>
+						
+						<table border="1" width="90%">
+						    <tr align="center">
+					 	        <td>
+						            ${ map.pagingImg }
+						        </td>
+						        <td width="100"><button type="button"
+						            onclick="location.href='./write.do';">글쓰기</button></td>
+						    </tr>
+						</table>
 
-			<footer class="site-footer">
+					</div>
+				</div> <!-- .page -->
+
+			</main> <!-- .main-content -->
+
+			<footer class="site-footer" style="margin-top: auto;">
 				<div class="container">
 					<div class="pull-left">
 						<address>

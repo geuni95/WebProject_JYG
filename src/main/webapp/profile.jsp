@@ -23,13 +23,13 @@
 					<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
 							<li class="menu-item"><a href="index.jsp">홈</a></li>
-							<li class="menu-item"><a href="news.html">자유게시판</a></li>
+							<li class="menu-item"><a href="./list.do">자유게시판</a></li>
 							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
 							<c:choose>
 							<c:when test="${not empty sessionScope.user}">
-							<li class="menu-item current-menu-item"><a href="logout.jsp">로그아웃</a></li>
-							<li class="menu-item"><a href="profile.jsp">안녕하세요, ${user.name}님!</a></li>
+							<li class="menu-item"><a href="logout.jsp">로그아웃</a></li>
+							<li class="menu-item current-menu-item"><a href="profile.jsp">안녕하세요, ${user.name}님!</a></li>
 							</c:when>
 							<c:otherwise>
 							<li class="menu-item"><a href="login.jsp">로그인</a></li>

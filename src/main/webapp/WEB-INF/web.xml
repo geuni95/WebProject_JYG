@@ -9,5 +9,55 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
-  
+  <!--======================================================================-->
+  <servlet>
+  	<servlet-name>FreeBoardList</servlet-name>
+  	<servlet-class>freeboard.ListController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FreeBoardList</servlet-name>
+  	<url-pattern>/list.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FreeBoardWrite</servlet-name>
+  	<servlet-class>freeboard.WriteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FreeBoardWrite</servlet-name>
+  	<url-pattern>/write.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FreeBoardView</servlet-name>
+  	<servlet-class>freeboard.ViewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FreeBoardView</servlet-name>
+  	<url-pattern>/view.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FreeBoardDelete</servlet-name>
+  	<servlet-class>freeboard.DeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FreeBoardDelete</servlet-name>
+  	<url-pattern>/delete.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FreeBoardEdit</servlet-name>
+  	<servlet-class>freeboard.EditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FreeBoardEdit</servlet-name>
+  	<url-pattern>/edit.do</url-pattern>
+  </servlet-mapping>
+  <!--======================================================================-->
+  <context-param>
+  	<param-name>POSTS_PER_PAGE</param-name>
+  	<param-value>10</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>PAGES_PER_BLOCK</param-name>
+  	<param-value>5</param-value>
+  </context-param>
+  <!--======================================================================-->
 </web-app>

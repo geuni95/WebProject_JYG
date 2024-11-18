@@ -22,10 +22,39 @@
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
-
+		
+		 <style>
+	        /* 전체 페이지를 화면 크기에 맞게 설정 */
+	        html, body {
+	            height: 100%;
+	            margin: 0;
+	            padding: 0;
+	            display: flex;
+	            flex-direction: column;
+	        }
+	
+	        #site-content {
+	            flex: 1;
+	        }
+	
+	        footer.site-footer {
+	            margin-top: auto; /* 푸터를 화면 하단에 고정 */
+	        }
+    	</style>
+	
 	</head>
 
-
+	<script>
+	function delete_confirm(idx){
+		if(confirm("삭제하시겠습니까?")){
+			location.href='./delete.do?idx=${ param.idx }';
+		}
+		else{
+			alert("삭제 실패");
+		}
+	}
+	</script>
+	
 	<body>
 		
 		<div id="site-content">
@@ -43,8 +72,8 @@
 					<div class="main-navigation">
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
-					        <li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="index.jsp">홈</a></li>
+					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="project.html">자료실 게시판</a></li>
 					
@@ -69,39 +98,61 @@
 				</div>
 			</div> <!-- .site-header -->
 
-			<div class="hero hero-slider">
-				<ul class="slides">
-					<li data-bg-image="images/board1.jpg">
-						<a href="./list.do"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Free board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/QAboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Q&A board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/downloadboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>download</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-				</ul> <!-- .slides -->
-			</div> <!-- .hero-slider -->
+			<main class="main-content">
+				
+				<div class="page">
+					<div class="container">
+					
+						<h2>자유 게시판 - view 상태</h2>
+					
+						<table border="1" width="90%">
+						    <colgroup>
+						        <col width="15%"/> <col width="35%"/>
+						        <col width="15%"/> <col width="*"/>
+						    </colgroup> 
+						    <!-- 
+						    Controller에서 인출한 레코드를 저장한 DTO객체를 출력해준다.
+						    EL을 사용하면 멤버변수명 만으로 getter를 호출하여 내용을 출력할 수 있다.
+						     -->
+						    <tr>
+						        <td>번호</td> <td>${ dto.idx }</td>
+						        <td>작성자</td> <td>${ dto.name }</td>
+						    </tr>
+						    <tr>
+						        <td>작성일</td> <td>${ dto.postdate }</td>
+						        <td>조회수</td> <td>${ dto.visitcount }</td>
+						    </tr>
+						    <tr>
+						        <td>제목</td>
+						        <td colspan="3">${ dto.title }</td>
+						    </tr>
+						    <tr>
+						        <td>내용</td>
+						        <td colspan="3" height="100">
+						        	${ dto.content }
+						        </td>
+						    </tr> 
+						    
+						    <tr>
+						        <td colspan="4" align="center">
+						        	<button type="button"
+						        		onclick="location.href='./edit.do?idx=${ param.idx }';">수정하기</button>
+						        	<!--[퀴즈1]삭제할건지 확인하기  -->
+						            <button type="button"
+						            	onclick="delete_confirm(${ param.idx });">삭제하기</button>
+						            <button type="button" onclick="location.href='./list.do';">
+						                목록 바로가기
+						            </button>
+						        </td>
+						    </tr>
+						</table>
 
-			<footer class="site-footer">
+					</div>
+				</div> <!-- .page -->
+
+			</main> <!-- .main-content -->
+
+			<footer class="site-footer" style="margin-top: auto;">
 				<div class="container">
 					<div class="pull-left">
 						<address>

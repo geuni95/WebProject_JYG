@@ -74,7 +74,7 @@
 						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
 							<li class="menu-item"><a href="index.jsp">홈</a></li>
-							<li class="menu-item"><a href="news.html">자유게시판</a></li>
+							<li class="menu-item"><a href="./list.do">자유게시판</a></li>
 							<li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 							<li class="menu-item"><a href="project.html">자료실 게시판</a></li>
 							<%
@@ -149,8 +149,8 @@
 					<div class="pull-left">
 
 						<address>
-							<strong>Company Name</strong>
-							<p>532 Avenue Street, Omaha</p>
+							<strong>Project Name</strong>
+							<p>HTML JSP board</p>
 						</address>
 
 						<a href="#" class="phone">+ 1 800 931 033</a>

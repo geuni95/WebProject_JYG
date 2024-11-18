@@ -22,9 +22,27 @@
 		<script src="js/ie-support/html5.js"></script>
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
-
+		
+		 <style>
+	        /* 전체 페이지를 화면 크기에 맞게 설정 */
+	        html, body {
+	            height: 100%;
+	            margin: 0;
+	            padding: 0;
+	            display: flex;
+	            flex-direction: column;
+	        }
+	
+	        #site-content {
+	            flex: 1;
+	        }
+	
+	        footer.site-footer {
+	            margin-top: auto; /* 푸터를 화면 하단에 고정 */
+	        }
+    	</style>
+    
 	</head>
-
 
 	<body>
 		
@@ -43,8 +61,8 @@
 					<div class="main-navigation">
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
-					        <li class="menu-item current-menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="index.jsp">홈</a></li>
+					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="about.html">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="project.html">자료실 게시판</a></li>
 					
@@ -69,39 +87,59 @@
 				</div>
 			</div> <!-- .site-header -->
 
-			<div class="hero hero-slider">
-				<ul class="slides">
-					<li data-bg-image="images/board1.jpg">
-						<a href="./list.do"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Free board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/QAboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>Q&A board</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-					<li data-bg-image="images/downloadboard.jpg">
-						<a href="index.jsp"/>
-						<div class="container">
-							<div class="slide-title">
-								<span>download</span> <br>
-								<span>click to move</span> <br>
-							</div>
-						</div>
-					</li>
-				</ul> <!-- .slides -->
-			</div> <!-- .hero-slider -->
+			<main class="main-content">
+				
+				<div class="page">
+					<div class="container">
+					
+						<h2>자유 게시판 글쓰기</h2>
+						<form name="writeFrm" method="post"  
+						      action="./write.do" onsubmit="return validateForm(this);">
+						<table border="1" width="90%">
+						    <tr>
+						        <td>제목</td>
+						        <td>
+						            <input type="text" name="title" style="width:90%;" />
+						        </td>
+						    </tr>
+						    <tr>
+						        <td>내용</td>
+						        <td>
+						            <textarea name="content" style="width:90%;height:100px;"></textarea>
+						        </td>
+						    </tr>
+						    <tr>
+						        <td colspan="2" align="center">
+						            <button type="submit">작성 완료</button>
+						            <button type="reset">RESET</button>
+						            <button type="button" onclick="location.href='./list.do';">
+						                목록 바로가기
+						            </button>
+						        </td>
+						    </tr>
+						</table>    
+						</form>
+					</div>
+				</div> <!-- .page -->
+				
+    <script type="text/javascript">
+    function validateForm(form) {  // 필수 항목 입력 확인
+        if (form.title.value == "") {
+            alert("제목을 입력하세요.");
+            form.title.focus();
+            return false;
+        }
+        if (form.content.value == "") {
+            alert("내용을 입력하세요.");
+            form.content.focus();
+            return false;
+        }
+    }
+    </script>
+    
+			</main> <!-- .main-content -->
 
-			<footer class="site-footer">
+			<footer class="site-footer" style="margin-top: auto;">
 				<div class="container">
 					<div class="pull-left">
 						<address>
