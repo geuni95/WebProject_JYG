@@ -113,9 +113,9 @@
 						    </tr>
 						    <tr>
 						        <td colspan="2" align="center">
-						            <button type="submit">작성 완료</button>
-						            <button type="reset">RESET</button>
-						            <button type="button" onclick="location.href='./list.do';">
+						            <button type="submit" style="color: white;">작성 완료</button>
+						            <button type="reset" style="color: white;">RESET</button>
+						            <button type="button" onclick="location.href='./list.do';" style="color: white;">
 						                목록 바로가기
 						            </button>
 						        </td>
