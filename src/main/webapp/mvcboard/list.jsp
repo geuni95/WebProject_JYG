@@ -75,9 +75,9 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
-					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
 					        <c:choose>
@@ -105,69 +105,84 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판</h2>
-						
-						<!-- 검색 폼 -->
-						<form method="get" action="./list.do">  
-							<table border="1" width="90%">
-								<tr>
-								    <td align="center">
-						                <select name="searchField">
-						                    <option value="title" ${searchField == 'title' ? 'selected' : ''}>제목</option>
-						                    <option value="content" ${searchField == 'content' ? 'selected' : ''}>내용</option>
-						                </select>
-		                				<input type="text" name="searchWord" value="${searchWord}" />
-								        <input type="submit" value="검색하기" />
-								    </td>
-								</tr>
-							</table>
-						</form>
-						
-						<table border="1" width="90%">
-						    <tr>
-						        <th width="10%">번호</th>
-						        <th width="*">제목</th>
-						        <th width="15%">작성자</th>
-						        <th width="10%">조회수</th>
-						        <th width="15%">작성일</th>
-						    </tr>
-						<c:choose>
-							<c:when test="${ empty boardLists }">
-						        <tr>
-						            <td colspan="6" align="center">
-						                등록된 게시물이 없습니다^^*
-						            </td>
-						        </tr>
-						    </c:when>
-						    <c:otherwise>
-						    	<c:forEach items="${ boardLists }" var="row" varStatus="loop">
-						    	<tr align="center">
-						    		<td>
-						    			${ map.totalCount - (((map.pageNum-1) * map.pageSize)
-						    				 + loop.index) }
-						    		</td>
-						    		<td align="left">
-						    			<a href="./view.do?idx=${ row.idx }">
-						    				${ row.title }</a>
-						    		</td>
-						    		<td>${ row.id }</td>
-						    		<td>${ row.visitcount }</td>
-						    		<td>${ row.postdate }</td>
-						    	</tr>
-						       	</c:forEach>
-						   	</c:otherwise>
-						</c:choose>
-						</table>
-						
-						<table border="1" width="90%">
-						    <tr align="center">
-					 	        <td>
-						            ${ map.pagingImg }
-						        </td>
-						        <td width="100"><button type="button"
-						            onclick="location.href='./write.do';">글쓰기</button></td>
-						    </tr>
-						</table>
+					    <h2>파일 첨부형 게시판 - 목록 보기(List)</h2>
+					
+					  
+					    <form method="get">
+					    <table border="1" width="90%">
+					    <tr>
+					        <td align="center">
+					            <select name="searchField">
+					                <option value="title">제목</option>
+					                <option value="content">내용</option>
+					            </select>
+					            <input type="text" name="searchWord" />
+					            <input type="submit" value="검색하기" />
+					        </td>
+					    </tr>
+					    </table>
+					    </form>
+					
+					    <table border="1" width="90%">
+					        <tr>
+					            <th width="10%">번호</th>
+					            <th width="*">제목</th>
+					            <th width="15%">작성자</th>
+					            <th width="10%">조회수</th>
+					            <th width="15%">작성일</th>
+					            <th width="10%">첨부</th>
+					        </tr>
+					        
+					<c:choose>
+						<c:when test="${ empty boardLists }">
+					        <tr>
+					            <td colspan="6" align="center">
+					                등록된 게시물이 없습니다^^*
+					            </td>
+					        </tr>
+					    </c:when>
+					    <c:otherwise>
+					    	<c:forEach items="${ boardLists }" var="row" varStatus="loop">
+					    	<tr align="center">
+					    		<td>
+					    			${ map.totalCount - (((map.pageNum-1) * map.pageSize)
+					    				 + loop.index) }
+					    		</td>
+					    		<td align="left">
+					    			<a href="./mvcview.do?idx=${ row.idx }">
+					    				${ row.title }</a>
+					    		</td>
+					    		<td>${ row.id }</td>
+					    		<td>${ row.visitcount }</td>
+					    		<td>${ row.postdate }</td>
+			                    <td>
+			                        <c:if test="${ not empty row.ofile }">
+			                            <!-- 로그인 상태 체크 -->
+			                            <c:if test="${ not empty sessionScope.user }">
+			                                <a href="./mvcdownload.do?ofile=${ row.ofile }&sfile=${ row.sfile }&idx=${ row.idx }">
+			                                    [Down]
+			                                </a>
+			                            </c:if>
+			                            <c:if test="${ empty sessionScope.user }">
+			                                <!-- 로그인하지 않은 경우 알림 표시 -->
+			                                로그인 <br/> 필요
+			                            </c:if>
+			                        </c:if>
+			                    </td>
+					    	</tr>
+					       	</c:forEach>
+					   	</c:otherwise>
+					</c:choose>
+					    </table>
+					    <table border="1" width="90%">
+					        <tr align="center">
+					            <td>
+					            	${ map.pagingImg }
+					            </td>
+					            <td width="100"><button type="button"
+					                onclick="location.href='./mvcwrite.do';">글쓰기</button></td>
+					        </tr>
+					    </table>
 
 					</div>
 				</div> <!-- .page -->

@@ -47,7 +47,7 @@
 	<script>
 	function delete_confirm(idx){
 		if(confirm("삭제하시겠습니까?")){
-			location.href='./delete.do?idx=${ param.idx }';
+			location.href='./mvcdelete.do?idx=${ param.idx }';
 		}
 		else{
 			alert("삭제 실패");
@@ -73,9 +73,9 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
-					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
 					        <c:choose>
@@ -110,10 +110,6 @@
 						        <col width="15%"/> <col width="35%"/>
 						        <col width="15%"/> <col width="*"/>
 						    </colgroup> 
-						    <!-- 
-						    Controller에서 인출한 레코드를 저장한 DTO객체를 출력해준다.
-						    EL을 사용하면 멤버변수명 만으로 getter를 호출하여 내용을 출력할 수 있다.
-						     -->
 						    <tr>
 						        <td>번호</td> <td>${ dto.idx }</td>
 						        <td>작성자</td> <td>${ dto.name }</td>
@@ -130,17 +126,54 @@
 						        <td>내용</td>
 						        <td colspan="3" height="100">
 						        	${ dto.content }
+						        	<c:if test="${ not empty dto.ofile }">
+						        	<br />
+						        	<c:choose>
+						        		<c:when test="${ mimeType eq 'img' }">
+						        			<img src="./Uploads/${ dto.sfile }" style="max-width:600px;" />
+						        		</c:when>
+						        		<c:when test="${ mimeType eq 'audio' }">
+						        			<audio controls = "controls">
+						        			<source src="./Uploads/${ dto.sfile }"type="audio/mp3"/></audio>
+						        		</c:when>
+						        		<c:when test="${ mimeType eq 'video' }">
+						        			<video src="./Uploads/${ dto.sfile }"type="video/mp3" controls>
+						        			your browser does not support the video tag.</video>
+						        		</c:when>
+						        	</c:choose>
+						        	</c:if>
 						        </td>
 						    </tr> 
-						    
+						    <tr>
+						        <td>첨부파일</td>
+
+						        <td>
+						            <!-- 첨부한 파일이 있다면 다운로드 링크를 출력한다. -->
+						            <c:if test="${ not empty dto.ofile }">
+						                <!-- 로그인 여부를 확인 -->
+						                <c:if test="${ not empty sessionScope.user }">
+						                    <!-- 로그인한 사용자만 다운로드 링크를 보여줍니다 -->
+						                    <a href="./mvcdownload.do?ofile=${ dto.ofile }&sfile=${ dto.sfile }&idx=${ dto.idx }">
+						                       ${ dto.ofile } [다운로드]
+						                    </a>
+						                </c:if>
+						                <c:if test="${ empty sessionScope.user }">
+						                    <!-- 로그인하지 않은 경우 알림을 표시 -->
+						                    로그인 후 다운로드 가능합니다.
+						                </c:if>
+						            </c:if>
+						        </td>
+						         <td>다운로드수</td>
+						        <td>${ dto.downcount }</td>
+						    </tr>  
 						    <tr>
 						        <td colspan="4" align="center">
 						        	<button type="button"
-						        		onclick="location.href='./edit.do?idx=${ param.idx }';">수정하기</button>
+						        		onclick="location.href='./mvcedit.do?idx=${ param.idx }';">수정하기</button>
 						        	<!--[퀴즈1]삭제할건지 확인하기  -->
 						            <button type="button"
 						            	onclick="delete_confirm(${ param.idx });">삭제하기</button>
-						            <button type="button" onclick="location.href='./list.do';">
+						            <button type="button" onclick="location.href='./mvclist.do';">
 						                목록 바로가기
 						            </button>
 						        </td>

@@ -41,20 +41,9 @@
 	            margin-top: auto; /* 푸터를 화면 하단에 고정 */
 	        }
     	</style>
-	
+    
 	</head>
 
-	<script>
-	function delete_confirm(idx){
-		if(confirm("삭제하시겠습니까?")){
-			location.href='./delete.do?idx=${ param.idx }';
-		}
-		else{
-			alert("삭제 실패");
-		}
-	}
-	</script>
-	
 	<body>
 		
 		<div id="site-content">
@@ -73,9 +62,9 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
 					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
-					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
 					        <c:choose>
@@ -103,53 +92,57 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 - view 상태</h2>
-					
+						<h2>파일 첨부형 게시판 - 글쓰기(Write)</h2>
+						<form name="writeFrm" method="post" enctype="multipart/form-data"
+						      action="./mvcwrite.do" onsubmit="return validateForm(this);">
 						<table border="1" width="90%">
-						    <colgroup>
-						        <col width="15%"/> <col width="35%"/>
-						        <col width="15%"/> <col width="*"/>
-						    </colgroup> 
-						    <!-- 
-						    Controller에서 인출한 레코드를 저장한 DTO객체를 출력해준다.
-						    EL을 사용하면 멤버변수명 만으로 getter를 호출하여 내용을 출력할 수 있다.
-						     -->
-						    <tr>
-						        <td>번호</td> <td>${ dto.idx }</td>
-						        <td>작성자</td> <td>${ dto.name }</td>
-						    </tr>
-						    <tr>
-						        <td>작성일</td> <td>${ dto.postdate }</td>
-						        <td>조회수</td> <td>${ dto.visitcount }</td>
-						    </tr>
 						    <tr>
 						        <td>제목</td>
-						        <td colspan="3">${ dto.title }</td>
+						        <td>
+						            <input type="text" name="title" style="width:90%;" />
+						        </td>
 						    </tr>
 						    <tr>
 						        <td>내용</td>
-						        <td colspan="3" height="100">
-						        	${ dto.content }
+						        <td>
+						            <textarea name="content" style="width:90%;height:100px;"></textarea>
 						        </td>
-						    </tr> 
-						    
+						    </tr>
 						    <tr>
-						        <td colspan="4" align="center">
-						        	<button type="button"
-						        		onclick="location.href='./edit.do?idx=${ param.idx }';">수정하기</button>
-						        	<!--[퀴즈1]삭제할건지 확인하기  -->
-						            <button type="button"
-						            	onclick="delete_confirm(${ param.idx });">삭제하기</button>
-						            <button type="button" onclick="location.href='./list.do';">
+						        <td>첨부 파일</td>
+						        <td>
+						            <input type="file" name="ofile" />
+						        </td>
+						    </tr>
+						    <tr>
+						        <td colspan="2" align="center">
+						            <button type="submit">작성 완료</button>
+						            <button type="reset">RESET</button>
+						            <button type="button" onclick="location.href='./mvclist.do';">
 						                목록 바로가기
 						            </button>
 						        </td>
 						    </tr>
-						</table>
-
+						</table>    
+						</form>
 					</div>
 				</div> <!-- .page -->
-
+				
+    <script type="text/javascript">
+    function validateForm(form) {  // 필수 항목 입력 확인
+        if (form.title.value == "") {
+            alert("제목을 입력하세요.");
+            form.title.focus();
+            return false;
+        }
+        if (form.content.value == "") {
+            alert("내용을 입력하세요.");
+            form.content.focus();
+            return false;
+        }
+    }
+    </script>
+    
 			</main> <!-- .main-content -->
 
 			<footer class="site-footer" style="margin-top: auto;">
