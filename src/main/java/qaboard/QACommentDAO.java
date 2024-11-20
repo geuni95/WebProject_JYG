@@ -70,7 +70,7 @@ public class QACommentDAO extends DBConnPool {
         int result = 0;
         try {
             String query = "INSERT INTO qacomment (idx, board_idx, id, content, parent_idx, is_deleted, likes) "
-                         + " VALUES (seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, ?)";
+                         + " VALUES (seq_qaboard_num.NEXTVAL, ?, ?, ?, ?, ?, ?)";
             psmt = con.prepareStatement(query);
             psmt.setInt(1, dto.getBoardIdx());
             psmt.setString(2, dto.getId());
@@ -118,15 +118,13 @@ public class QACommentDAO extends DBConnPool {
     public int updateComment(QACommentDTO dto) {
         int result = 0;
         try {
-            String query = "UPDATE qacomment SET content = ?, is_deleted = ?, likes = ? WHERE idx = ? AND id = ?";
+            // content만 수정하도록 쿼리 변경
+            String query = "UPDATE qacomment SET content = ? WHERE idx = ?";
             psmt = con.prepareStatement(query);
-            psmt.setString(1, dto.getContent());
-            psmt.setString(2, dto.getIsDeleted());
-            psmt.setInt(3, dto.getLikes());
-            psmt.setInt(4, dto.getIdx());
-            psmt.setString(5, dto.getId());
+            psmt.setString(1, dto.getContent());  // 댓글 내용 수정
+            psmt.setInt(2, dto.getIdx());         // 댓글 고유 ID
 
-            result = psmt.executeUpdate();
+            result = psmt.executeUpdate();  // 쿼리 실행
         } catch (Exception e) {
             System.out.println("댓글 수정 중 예외 발생");
             e.printStackTrace();

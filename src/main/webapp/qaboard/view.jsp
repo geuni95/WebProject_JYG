@@ -23,24 +23,7 @@
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
 		
-		 <style>
-	        /* 전체 페이지를 화면 크기에 맞게 설정 */
-	        html, body {
-	            height: 100%;
-	            margin: 0;
-	            padding: 0;
-	            display: flex;
-	            flex-direction: column;
-	        }
-	
-	        #site-content {
-	            flex: 1;
-	        }
-	
-	        footer.site-footer {
-	            margin-top: auto; /* 푸터를 화면 하단에 고정 */
-	        }
-    	</style>
+
 	
 	</head>
 
@@ -99,31 +82,30 @@
 			</div> <!-- .site-header -->
 
 			<main class="main-content">
-				
-				<div class="page">
-					<div class="container">
-					
-						<h2>Q/A 게시글 (${ dto.title }) 내용</h2>
-					
-						<table border="1" width="90%">
-						    <colgroup>
-						        <col width="15%"/> <col width="35%"/>
-						        <col width="15%"/> <col width="*"/>
-						    </colgroup> 
-						    <tr>
-						        <td>번호</td> <td>${ dto.idx }</td>
-						        <td>작성자</td> <td>${ dto.name }</td>
-						    </tr>
-						    <tr>
-						        <td>작성일</td> <td>${ dto.postdate }</td>
-						        <td>조회수</td> <td>${ dto.visitcount }</td>
-						    </tr>
-						    <tr>
-						        <td>제목</td>
-						        <td colspan="3">${ dto.title }</td>
-						    </tr>
-						    <tr>
-						        <td>내용</td>
+			    <div class="page">
+			        <div class="container">
+			            <h2>Q/A 게시글 (${dto.title}) 내용</h2>
+			
+			            <!-- 게시글 테이블 -->
+			            <table border="1" width="90%">
+			                <colgroup>
+			                    <col width="15%"/> <col width="35%"/>
+			                    <col width="15%"/> <col width="*"/>
+			                </colgroup>
+			                <tr>
+			                    <td>번호</td> <td>${dto.idx}</td>
+			                    <td>작성자</td> <td>${dto.name}</td>
+			                </tr>
+			                <tr>
+			                    <td>작성일</td> <td>${dto.postdate}</td>
+			                    <td>조회수</td> <td>${dto.visitcount}</td>
+			                </tr>
+			                <tr>
+			                    <td>제목</td>
+			                    <td colspan="3">${dto.title}</td>
+			                </tr>
+			                <tr>
+			                    <td>내용</td>
 						        <td colspan="3" height="100">
 						        	${ dto.content }
 						        	<c:if test="${ not empty dto.ofile }">
@@ -143,8 +125,7 @@
 						        	</c:choose>
 						        	</c:if>
 						        </td>
-						    </tr>  
-						    <tr>
+						    </tr>						    <tr>
 						        <td colspan="4" align="center">
 						        	<button type="button"
 						        		onclick="location.href='./qaedit.do?idx=${ param.idx }';">수정하기</button>
@@ -156,37 +137,60 @@
 						            </button>
 						        </td>
 						    </tr>
-						</table>
-					
+						</table><br/>
+				
 						<!-- 댓글 작성 폼 -->
-						<h3>댓글 작성</h3>
-						<form action="qaview.do?idx=${dto.idx}" method="post">
-							<textarea name="content" rows="4" cols="50"></textarea><br/>
-							<input type="hidden" name="action" value="write"/>
-							<input type="submit" value="댓글 작성"/>
+						<form action="qaview.do?idx=${dto.idx}&action=write" method="post">
+						    <textarea name="content" required placeholder="댓글을 작성하세요..." rows="5"></textarea><br>
+						    <input type="submit" value="댓글 작성">
 						</form>
 						
-						<!-- 댓글 목록 -->
-						<h3>댓글 목록</h3>
-						<c:forEach var="comment" items="${commentList}">
-						    <div>
-						        <strong>${comment.id}</strong> - ${comment.postdate}<br/>
-						        <p>${comment.content}</p>
-						    </div>
-						    <hr/>
-						</c:forEach>
-    					
-					    <script>
-					        function delete_confirm(idx) {
-					            if (confirm("정말 삭제하시겠습니까?")) {
-					                location.href = "./qadelete.do?idx=" + idx;
-					            }
-					        }
-					    </script>
-    
-					</div>
-				</div> <!-- .page -->
-
+						<!-- 댓글 목록 표시 -->
+						<h3>댓글</h3>
+						<div class="comment-list">
+						    <c:forEach var="comment" items="${commentList}">
+						        <div class="comment-item">
+						            <div class="comment-header">
+						                <div class="comment-info">
+						                    <strong>${comment.id}</strong> <span>${comment.postdate}</span>
+						                </div>
+						            </div>
+						            <div class="comment-body">
+						                <p>${comment.content}</p>
+						            </div>
+						            
+						            <!-- 댓글 수정 및 삭제 버튼 -->
+						            <c:if test="${comment.isDeleted != 'Y'}">
+						                <div class="comment-actions">
+						                    <a href="qaview.do?idx=${dto.idx}&action=editForm&commentIdx=${comment.idx}">수정</a> |
+						                    <a href="qaview.do?idx=${dto.idx}&action=delete&commentIdx=${comment.idx}">삭제</a>
+						                </div>
+						            </c:if>
+						        </div>
+						
+						        <!-- 댓글 수정 폼 (수정 버튼 클릭 시 표시) -->
+								<c:if test="${param.action == 'editForm' && param.commentIdx == comment.idx}">
+								    <form action="qaview.do" method="post">								    	
+								    	<input type="hidden" name="idx" value="${dto.idx}" />
+								    	<input type="hidden" name="action" value="edit" />								    
+								        <input type="hidden" name="commentIdx" value="${comment.idx}">
+								        <textarea name="content" required>${comment.content}</textarea><br>
+								        <input type="submit" value="수정 완료">
+								    </form>
+								</c:if>
+						    </c:forEach>
+						</div>
+			
+			
+			            <script>
+			                function delete_confirm(idx) {
+			                    if (confirm("정말 삭제하시겠습니까?")) {
+			                        location.href = "./qadelete.do?idx=" + idx;
+			                    }
+			            </script>
+			
+			        </div>
+			    </div> <!-- .page -->
 			</main> <!-- .main-content -->
 
 			<footer class="site-footer" style="margin-top: auto;">

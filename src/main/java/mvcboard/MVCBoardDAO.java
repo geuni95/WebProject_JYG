@@ -105,7 +105,7 @@ public class MVCBoardDAO extends DBConnPool {
 					"INSERT INTO mvcboard ( "
 					+ " idx, id, title, content, ofile, sfile)"
 					+ " VALUES ( "
-					+ " seq_board_num.NEXTVAL,?,?,?,?,?)";
+					+ " seq_mvcboard_num.NEXTVAL,?,?,?,?,?)";
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getTitle());

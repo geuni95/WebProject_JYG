@@ -81,7 +81,7 @@
 						</div>
 					</li>
 					<li data-bg-image="images/QAboard.jpg">
-						<a href="index.jsp"/>
+						<a href="./qalist.do"/>
 						<div class="container">
 							<div class="slide-title">
 								<span>Q&A board</span> <br>
@@ -90,7 +90,7 @@
 						</div>
 					</li>
 					<li data-bg-image="images/downloadboard.jpg">
-						<a href="index.jsp"/>
+						<a href="./qalist.do"/>
 						<div class="container">
 							<div class="slide-title">
 								<span>download</span> <br>
