@@ -62,8 +62,8 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
@@ -92,38 +92,53 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 글쓰기</h2>
-						<form name="writeFrm" method="post"  
-						      action="./write.do" onsubmit="return validateForm(this);">
+						<h2>Q/A게시판 수정</h2>
+						<form name="writeFrm" method="post" enctype="multipart/form-data" action="./mvcedit.do" onsubmit="return validateForm(this);">
+						
+						<!-- 수정할 게시물의 일련번호 -->
+						<input type="hidden" name="idx" value="${ dto.idx }"/>
+						<!-- 게시물의 작성자 아이디 -->
+						<input type="hidden" name="id" value="${ dto.id }"/>
+						<!-- 기존 게시물의 파일명 -->
+						<input type="hidden" name="prevOfile" value="${ dto.ofile }" />
+						<input type="hidden" name="prevSfile" value="${ dto.sfile }" />
+						    
 						<table border="1" width="90%">
 						    <tr>
 						        <td>제목</td>
 						        <td>
-						            <input type="text" name="title" style="width:90%;" />
+						            <input type="text" name="title" style="width:90%;" value="${ dto.title }" />
 						        </td>
 						    </tr>
 						    <tr>
 						        <td>내용</td>
 						        <td>
-						            <textarea name="content" style="width:90%;height:100px;"></textarea>
+						            <textarea name="content" style="width:90%;height:100px;">${ dto.content }</textarea>
+						        </td>
+						    </tr>
+						    <tr>
+						        <td>첨부 파일</td>
+						        <td>
+						            <input type="file" name="ofile" />
 						        </td>
 						    </tr>
 						    <tr>
 						        <td colspan="2" align="center">
 						            <button type="submit" style="color: white;">작성 완료</button>
 						            <button type="reset" style="color: white;">RESET</button>
-						            <button type="button" onclick="location.href='./list.do';" style="color: white;">
+						            <button type="button" onclick="location.href='./qalist.do';" style="color: white;">
 						                목록 바로가기
 						            </button>
 						        </td>
 						    </tr>
 						</table>    
 						</form>
+
 					</div>
 				</div> <!-- .page -->
 				
     <script type="text/javascript">
-    function validateForm(form) {  // 필수 항목 입력 확인
+    function validateForm(form) {
         if (form.title.value == "") {
             alert("제목을 입력하세요.");
             form.title.focus();
@@ -135,6 +150,7 @@
             return false;
         }
     }
+
     </script>
     
 			</main> <!-- .main-content -->

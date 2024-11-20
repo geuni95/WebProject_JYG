@@ -76,8 +76,8 @@
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
 					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
-					        <li class="menu-item current-menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
 					        <c:choose>
@@ -105,7 +105,7 @@
 				<div class="page">
 					<div class="container">
 					
-					    <h2>첨부 게시판</h2>
+					    <h2>Q/A 게시판</h2>
 					
 					  
 					    <form method="get">
@@ -130,7 +130,6 @@
 					            <th width="15%">작성자</th>
 					            <th width="10%">조회수</th>
 					            <th width="15%">작성일</th>
-					            <th width="10%">첨부</th>
 					        </tr>
 					        
 					<c:choose>
@@ -149,26 +148,12 @@
 					    				 + loop.index) }
 					    		</td>
 					    		<td align="left">
-					    			<a href="./mvcview.do?idx=${ row.idx }">
+					    			<a href="./qaview.do?idx=${ row.idx }">
 					    				${ row.title }</a>
 					    		</td>
 					    		<td>${ row.id }</td>
 					    		<td>${ row.visitcount }</td>
 					    		<td>${ row.postdate }</td>
-			                    <td>
-			                        <c:if test="${ not empty row.ofile }">
-			                            <!-- 로그인 상태 체크 -->
-			                            <c:if test="${ not empty sessionScope.user }">
-			                                <a href="./mvcdownload.do?ofile=${ row.ofile }&sfile=${ row.sfile }&idx=${ row.idx }">
-			                                    [Down]
-			                                </a>
-			                            </c:if>
-			                            <c:if test="${ empty sessionScope.user }">
-			                                <!-- 로그인하지 않은 경우 알림 표시 -->
-			                                로그인 <br/> 필요
-			                            </c:if>
-			                        </c:if>
-			                    </td>
 					    	</tr>
 					       	</c:forEach>
 					   	</c:otherwise>
@@ -180,7 +165,7 @@
 					            	${ map.pagingImg }
 					            </td>
 					            <td width="100"><button type="button"
-					                onclick="location.href='./mvcwrite.do';">글쓰기</button></td>
+					                onclick="location.href='./qawrite.do';">글쓰기</button></td>
 					        </tr>
 					    </table>
 

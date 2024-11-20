@@ -41,9 +41,20 @@
 	            margin-top: auto; /* 푸터를 화면 하단에 고정 */
 	        }
     	</style>
-    
+	
 	</head>
 
+	<script>
+	function delete_confirm(idx){
+		if(confirm("삭제하시겠습니까?")){
+			location.href='./mvcdelete.do?idx=${ param.idx }';
+		}
+		else{
+			alert("삭제 실패");
+		}
+	}
+	</script>
+	
 	<body>
 		
 		<div id="site-content">
@@ -62,8 +73,8 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
@@ -92,51 +103,90 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 글쓰기</h2>
-						<form name="writeFrm" method="post"  
-						      action="./write.do" onsubmit="return validateForm(this);">
+						<h2>Q/A 게시글 (${ dto.title }) 내용</h2>
+					
 						<table border="1" width="90%">
+						    <colgroup>
+						        <col width="15%"/> <col width="35%"/>
+						        <col width="15%"/> <col width="*"/>
+						    </colgroup> 
+						    <tr>
+						        <td>번호</td> <td>${ dto.idx }</td>
+						        <td>작성자</td> <td>${ dto.name }</td>
+						    </tr>
+						    <tr>
+						        <td>작성일</td> <td>${ dto.postdate }</td>
+						        <td>조회수</td> <td>${ dto.visitcount }</td>
+						    </tr>
 						    <tr>
 						        <td>제목</td>
-						        <td>
-						            <input type="text" name="title" style="width:90%;" />
-						        </td>
+						        <td colspan="3">${ dto.title }</td>
 						    </tr>
 						    <tr>
 						        <td>내용</td>
-						        <td>
-						            <textarea name="content" style="width:90%;height:100px;"></textarea>
+						        <td colspan="3" height="100">
+						        	${ dto.content }
+						        	<c:if test="${ not empty dto.ofile }">
+						        	<br />
+						        	<c:choose>
+						        		<c:when test="${ mimeType eq 'img' }">
+						        			<img src="./Uploads/${ dto.sfile }" style="max-width:600px;" />
+						        		</c:when>
+						        		<c:when test="${ mimeType eq 'audio' }">
+						        			<audio controls = "controls">
+						        			<source src="./Uploads/${ dto.sfile }"type="audio/mp3"/></audio>
+						        		</c:when>
+						        		<c:when test="${ mimeType eq 'video' }">
+						        			<video src="./Uploads/${ dto.sfile }"type="video/mp3" controls>
+						        			your browser does not support the video tag.</video>
+						        		</c:when>
+						        	</c:choose>
+						        	</c:if>
 						        </td>
-						    </tr>
+						    </tr>  
 						    <tr>
-						        <td colspan="2" align="center">
-						            <button type="submit" style="color: white;">작성 완료</button>
-						            <button type="reset" style="color: white;">RESET</button>
-						            <button type="button" onclick="location.href='./list.do';" style="color: white;">
+						        <td colspan="4" align="center">
+						        	<button type="button"
+						        		onclick="location.href='./qaedit.do?idx=${ param.idx }';">수정하기</button>
+						        	<!--[퀴즈1]삭제할건지 확인하기  -->
+						            <button type="button"
+						            	onclick="delete_confirm(${ param.idx });">삭제하기</button>
+						            <button type="button" onclick="location.href='./qalist.do';">
 						                목록 바로가기
 						            </button>
 						        </td>
 						    </tr>
-						</table>    
+						</table>
+					
+						<!-- 댓글 작성 폼 -->
+						<h3>댓글 작성</h3>
+						<form action="qaview.do?idx=${dto.idx}" method="post">
+							<textarea name="content" rows="4" cols="50"></textarea><br/>
+							<input type="hidden" name="action" value="write"/>
+							<input type="submit" value="댓글 작성"/>
 						</form>
+						
+						<!-- 댓글 목록 -->
+						<h3>댓글 목록</h3>
+						<c:forEach var="comment" items="${commentList}">
+						    <div>
+						        <strong>${comment.id}</strong> - ${comment.postdate}<br/>
+						        <p>${comment.content}</p>
+						    </div>
+						    <hr/>
+						</c:forEach>
+    					
+					    <script>
+					        function delete_confirm(idx) {
+					            if (confirm("정말 삭제하시겠습니까?")) {
+					                location.href = "./qadelete.do?idx=" + idx;
+					            }
+					        }
+					    </script>
+    
 					</div>
 				</div> <!-- .page -->
-				
-    <script type="text/javascript">
-    function validateForm(form) {  // 필수 항목 입력 확인
-        if (form.title.value == "") {
-            alert("제목을 입력하세요.");
-            form.title.focus();
-            return false;
-        }
-        if (form.content.value == "") {
-            alert("내용을 입력하세요.");
-            form.content.focus();
-            return false;
-        }
-    }
-    </script>
-    
+
 			</main> <!-- .main-content -->
 
 			<footer class="site-footer" style="margin-top: auto;">

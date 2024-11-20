@@ -92,7 +92,7 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>파일 첨부형 게시판 - 글쓰기(Write)</h2>
+						<h2>첨부 게시판 글 쓰기</h2>
 						<form name="writeFrm" method="post" enctype="multipart/form-data"
 						      action="./mvcwrite.do" onsubmit="return validateForm(this);">
 						<table border="1" width="90%">

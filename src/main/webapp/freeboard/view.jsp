@@ -74,7 +74,7 @@
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
 					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
@@ -103,7 +103,7 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 - view 상태</h2>
+						<h2>자유 게시글 ( ${ dto.title }) 내용 </h2>
 					
 						<table border="1" width="90%">
 						    <colgroup>

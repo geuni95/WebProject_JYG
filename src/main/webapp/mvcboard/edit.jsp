@@ -92,7 +92,7 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 글 수정하기</h2>
+						<h2>첨부게시판 수정</h2>
 						<form name="writeFrm" method="post" enctype="multipart/form-data" action="./mvcedit.do" onsubmit="return validateForm(this);">
 						
 						<!-- 수정할 게시물의 일련번호 -->

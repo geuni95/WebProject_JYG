@@ -24,7 +24,7 @@
 						<ul class="menu">
 							<li class="menu-item"><a href="index.jsp">홈</a></li>
 							<li class="menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="project.html">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 							<c:choose>
 							<c:when test="${not empty sessionScope.user}">

@@ -103,7 +103,7 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 - view 상태</h2>
+						<h2>첨부 게시글 (${ dto.title }) 내용</h2>
 					
 						<table border="1" width="90%">
 						    <colgroup>

@@ -62,8 +62,8 @@
 					    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 					    <ul class="menu">
 					        <li class="menu-item"><a href="index.jsp">홈</a></li>
-					        <li class="menu-item current-menu-item"><a href="./list.do">자유게시판</a></li>
-					        <li class="menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
+					        <li class="menu-item"><a href="./list.do">자유게시판</a></li>
+					        <li class="menu-item current-menu-item"><a href="./qalist.do">Q&A 게시판</a></li>
 					        <li class="menu-item"><a href="./mvclist.do">자료실 게시판</a></li>
 					
 					        <!-- 로그인 여부에 따라 메뉴 항목을 변경 -->
@@ -92,9 +92,9 @@
 				<div class="page">
 					<div class="container">
 					
-						<h2>자유 게시판 글쓰기</h2>
-						<form name="writeFrm" method="post"  
-						      action="./write.do" onsubmit="return validateForm(this);">
+						<h2>Q/A 게시판 글 쓰기</h2>
+						<form name="writeFrm" method="post" enctype="multipart/form-data"
+						      action="./qawrite.do" onsubmit="return validateForm(this);">
 						<table border="1" width="90%">
 						    <tr>
 						        <td>제목</td>
@@ -109,10 +109,16 @@
 						        </td>
 						    </tr>
 						    <tr>
+						        <td>첨부 파일</td>
+						        <td>
+						            <input type="file" name="ofile" />
+						        </td>
+						    </tr>
+						    <tr>
 						        <td colspan="2" align="center">
 						            <button type="submit" style="color: white;">작성 완료</button>
 						            <button type="reset" style="color: white;">RESET</button>
-						            <button type="button" onclick="location.href='./list.do';" style="color: white;">
+						            <button type="button" onclick="location.href='./qalist.do';" style="color: white;">
 						                목록 바로가기
 						            </button>
 						        </td>
