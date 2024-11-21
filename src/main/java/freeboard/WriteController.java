@@ -52,7 +52,7 @@ public class WriteController extends HttpServlet{
 		FreeboardDAO dao = new FreeboardDAO();
 		int result = dao.insertWriter(dto);
 
-//		//더미데이터 100개 입력하기
+		//더미데이터 100개 입력하기
 //		for(int i=1; i<=100;i++) {
 //			dto.setTitle(req.getParameter("title")+"-"+i);
 //			dao.insertWriter(dto);

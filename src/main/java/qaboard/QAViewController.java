@@ -1,6 +1,7 @@
 package qaboard;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,15 +52,35 @@ public class QAViewController extends HttpServlet {
 		req.setAttribute("mimeType", mimeType);
 		req.setAttribute("dto", dto);
 		
+		// 댓글 페이징처리
+		int pageSize = 6;
+		int pageNum = 1;
+		
+		if (req.getParameter("page") != null) {
+			pageNum = Integer.parseInt(req.getParameter("page"));
+		}
+		
+		int start = (pageNum - 1) * pageSize + 1;
+		int end = pageNum * pageSize;
 		
 		// 댓글 조회
 		QACommentDAO commentDao = new QACommentDAO();
-		Map<String, Object> map = Map.of("board_idx", Integer.parseInt(idx));
-		List<QACommentDTO> commentList = commentDao.selectList(map);
-
+		Map<String, Object> map = new HashMap<>();
+		map.put("board_idx", Integer.parseInt(idx));
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<QACommentDTO> commentList = commentDao.selectListPage(map);
+		
+		int totalComments = commentDao.getTotalComments(Integer.parseInt(idx));
+        int totalPages = (int) Math.ceil(totalComments / (double) pageSize);
+		
 		// 댓글 목록을 요청 속성에 설정
-		req.setAttribute("commentList", commentList);
-
+		req.setAttribute("totalPages", totalPages);
+        req.setAttribute("commentList", commentList);
+        req.setAttribute("currentPage", pageNum);
+        req.setAttribute("dto", dto);
+        
 		// 댓글 작성 처리
 		String action = req.getParameter("action");
 

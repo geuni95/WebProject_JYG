@@ -160,7 +160,7 @@
 						            </div>
 						            
 						            <!-- 댓글 수정 및 삭제 버튼 -->
-						            <c:if test="${comment.isDeleted != 'Y'}">
+						            <c:if test="${comment.isDeleted != 'Y' && sessionScope.user != null && sessionScope.user.id == comment.id}">
 						                <div class="comment-actions">
 						                    <a href="qaview.do?idx=${dto.idx}&action=editForm&commentIdx=${comment.idx}">수정</a> |
 						                    <a href="qaview.do?idx=${dto.idx}&action=delete&commentIdx=${comment.idx}">삭제</a>
@@ -181,7 +181,20 @@
 						    </c:forEach>
 						</div>
 			
-			
+						<!-- 페이징 -->
+						<div class="pagination">
+						    <c:forEach begin="1" end="${totalPages}" var="page">
+						        <c:choose>
+						            <c:when test="${page == currentPage}">
+						                <span class="current-page">${page}</span>
+						            </c:when>
+						            <c:otherwise>
+						                <a href="qaview.do?idx=${dto.idx}&page=${page}">${page}</a>
+						            </c:otherwise>
+						        </c:choose>
+						    </c:forEach>
+						</div>
+						
 			            <script>
 			                function delete_confirm(idx) {
 			                    if (confirm("정말 삭제하시겠습니까?")) {

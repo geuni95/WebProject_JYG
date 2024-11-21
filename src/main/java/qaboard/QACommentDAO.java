@@ -188,4 +188,22 @@ public class QACommentDAO extends DBConnPool {
         }
         return comments;
     }
+    
+    public int getTotalComments(int boardIdx) {
+        int totalComments = 0;
+        String query = "SELECT COUNT(*) FROM qacomment WHERE board_idx = ?";
+
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setInt(1, boardIdx);
+            rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                totalComments = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalComments;
+    }
 }

@@ -111,7 +111,20 @@
 						    <tr>
 						        <td>첨부 파일</td>
 						        <td>
-						            <input type="file" name="ofile" />
+						            <!-- 첨부한 파일이 있다면 다운로드 링크를 출력한다. -->
+						            <c:if test="${ not empty dto.ofile }">
+						                <!-- 로그인 여부를 확인 -->
+						                <c:if test="${ not empty sessionScope.user }">
+						                    <!-- 로그인한 사용자만 다운로드 링크를 보여줍니다 -->
+						                    <a href="./mvcdownload.do?ofile=${ dto.ofile }&sfile=${ dto.sfile }&idx=${ dto.idx }">
+						                       ${ dto.ofile } [다운로드]
+						                    </a>
+						                </c:if>
+						                <c:if test="${ empty sessionScope.user }">
+						                    <!-- 로그인하지 않은 경우 알림을 표시 -->
+						                    로그인 후 다운로드 가능합니다.
+						                </c:if>
+						            </c:if>
 						        </td>
 						    </tr>
 						    <tr>
