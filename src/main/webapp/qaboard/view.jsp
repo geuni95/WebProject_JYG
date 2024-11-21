@@ -30,7 +30,7 @@
 	<script>
 	function delete_confirm(idx){
 		if(confirm("삭제하시겠습니까?")){
-			location.href='./mvcdelete.do?idx=${ param.idx }';
+			location.href='./qadelete.do?idx=${ param.idx }';
 		}
 		else{
 			alert("삭제 실패");
