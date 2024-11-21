@@ -207,36 +207,82 @@ public class QACommentDAO extends DBConnPool {
         return totalComments;
     }
     
-    // 댓글의 좋아요 수 1 증가
-    public int increaseLikes(int commentIdx) {
-        int result = 0;
-        String query = "UPDATE qacomment SET likes = likes + 1 WHERE idx = ?";
+    public boolean hasLiked(int commentIdx, String userId) {
+        boolean hasLiked = false;
+        String query = "SELECT COUNT(*) FROM comment_likes WHERE comment_idx = ? AND id = ?";
 
         try {
             psmt = con.prepareStatement(query);
             psmt.setInt(1, commentIdx);
-            result = psmt.executeUpdate();
+            psmt.setString(2, userId);
+            rs = psmt.executeQuery();
+            
+            if (rs.next()) {
+            	int cnt = rs.getInt(1);
+            	if(cnt>0) {
+                hasLiked = true;
+            	}
+            }
         } catch (Exception e) {
-            System.out.println("댓글 좋아요 증가 중 예외 발생");
+            System.out.println("좋아요 여부 확인 중 예외 발생");
             e.printStackTrace();
         }
-        return result;
+        return hasLiked;
     }
-    
-    // 댓글의 좋아요 수 1 감소
-    public int decreaseLikes(int commentIdx) {
+
+    // 사용자가 좋아요를 눌렀을 때 댓글 좋아요 수 1 증가
+    public int increaseLikesForUser(int commentIdx, String userId) {
         int result = 0;
-        String query = "UPDATE qacomment SET likes = likes - 1 WHERE idx = ?";
+
+        // 댓글에 좋아요를 추가하는 과정
+        String insertQuery = "INSERT INTO comment_likes (comment_idx, id) VALUES (?, ?)";
 
         try {
-            psmt = con.prepareStatement(query);
+            psmt = con.prepareStatement(insertQuery);
             psmt.setInt(1, commentIdx);
+            psmt.setString(2, userId);
             result = psmt.executeUpdate();
+            
+            // 좋아요 수 증가
+            if (result > 0) {
+                String updateQuery = "UPDATE qacomment SET likes = likes + 1 WHERE idx = ?";
+                psmt = con.prepareStatement(updateQuery);
+                psmt.setInt(1, commentIdx);
+                psmt.executeUpdate();
+            }
         } catch (Exception e) {
-            System.out.println("댓글 좋아요 감소 중 예외 발생");
+            System.out.println("좋아요 추가 중 예외 발생");
             e.printStackTrace();
         }
+
         return result;
     }
-    
+
+    // 사용자가 좋아요를 취소할 때 댓글 좋아요 수 1 감소
+    public int decreaseLikesForUser(int commentIdx, String userId) {
+        int result = 0;
+
+        // 댓글에 대해 사용자가 눌렀던 좋아요를 취소
+        String deleteQuery = "DELETE FROM comment_likes WHERE comment_idx = ? AND id = ?";
+
+        try {
+            psmt = con.prepareStatement(deleteQuery);
+            psmt.setInt(1, commentIdx);
+            psmt.setString(2, userId);
+            result = psmt.executeUpdate();
+
+            // 좋아요 수 감소
+            if (result > 0) {
+                String updateQuery = "UPDATE qacomment SET likes = likes - 1 WHERE idx = ?";
+                psmt = con.prepareStatement(updateQuery);
+                psmt.setInt(1, commentIdx);
+                psmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            System.out.println("좋아요 취소 중 예외 발생");
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

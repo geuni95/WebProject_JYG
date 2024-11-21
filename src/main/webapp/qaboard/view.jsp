@@ -39,7 +39,12 @@
 	</script>
 	
 	<body>
-		
+	<!-- 에러 메시지가 있을 경우 JavaScript로 팝업 메시지 띄우기 -->
+	<c:if test="${not empty error}">
+	   <script type="text/javascript">
+	       alert("${error}");  // 서블릿에서 설정한 에러 메시지를 alert()로 표시
+	   </script>
+	</c:if>
 		<div id="site-content">
 			<div class="site-header">
 				<div class="container">
@@ -158,18 +163,20 @@
 						            <div class="comment-body">
 						                <p>${comment.content}</p>
 						            </div>
-							        <!-- 댓글 좋아요 버튼 -->
-							        <div class="comment-actions">
-							        <c:choose>
-							        	<c:when test="${ comment.likes > 0}">
-					                        <a href="qaview.do?action=unlike&commentIdx=${comment.idx}">좋아요 취소</a>
-					                    </c:when>
-					                    <c:otherwise>
-					                        <a href="qaview.do?action=like&commentIdx=${comment.idx}">좋아요</a>
-					                    </c:otherwise>
-					                </c:choose>
-					                <span>${comment.likes}명의 좋아요👍🏻</span> <!-- 좋아요 수 -->
-					            </div>
+									<!-- 댓글 좋아요 버튼 -->
+									<div class="comment-actions">
+									    <c:choose>
+									        <c:when test="${hasLiked}">
+									            <a href="qaview.do?idx=${dto.idx}&action=unlike&commentIdx=${comment.idx}" class="like-button">좋아요 취소</a>
+									        </c:when>
+									        <c:otherwise>
+									            <a href="qaview.do?idx=${dto.idx}&action=like&commentIdx=${comment.idx}" class="like-button">좋아요</a>
+									        </c:otherwise>
+									    </c:choose>
+									    
+									    <!-- 좋아요 수 표시 -->
+									    <span>${comment.likes}명이 좋아요👍🏻</span>
+									</div>
 						            
 						            <!-- 댓글 수정 및 삭제 버튼 -->
 						            <c:if test="${comment.isDeleted != 'Y' && sessionScope.user != null && sessionScope.user.id == comment.id}">

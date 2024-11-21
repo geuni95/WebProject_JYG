@@ -154,7 +154,7 @@ public class QAViewController extends HttpServlet {
 		    }
 		} else if ("delete".equals(action)) { // 댓글 삭제 처리
 		    String commentIdx = req.getParameter("commentIdx");
-
+		    
 		    // 댓글 삭제 (isDeleted 'Y'로 업데이트)
 		    int result = commentDao.deleteComment(Integer.parseInt(commentIdx));
 		    if (result > 0) {
@@ -167,41 +167,70 @@ public class QAViewController extends HttpServlet {
 
 		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
 
-		} else if ("like".equals(action)) { // 댓글 좋아요 처리
-			
-	        String commentIdx = req.getParameter("commentIdx");
+		}else if ("like".equals(action)) { // 댓글 좋아요 처리
+		    String commentIdx = req.getParameter("commentIdx");
 
-	        if (commentIdx != null) {
-	            int result = commentDao.increaseLikes(Integer.parseInt(commentIdx));
-	            if (result > 0) {
-	                // 좋아요 후, 댓글 목록 갱신
-	                commentList = commentDao.selectList(map);
-	                req.setAttribute("commentList", commentList);
-	            } else {
-	                req.setAttribute("error", "댓글 좋아요 처리에 실패했습니다.");
-	            }
-	        }
+		    // 세션에서 로그인한 사용자 확인
+		    HttpSession session = req.getSession();
+		    MemberDTO user = (MemberDTO) session.getAttribute("user");
 
-	        req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+		    if (user == null) { // 로그인하지 않은 사용자
+		        req.setAttribute("error", "로그인 후 이용해주세요.");
+		    } else if (commentIdx != null && !commentIdx.isEmpty()) {
+		        String userId = user.getId(); // 로그인한 사용자의 ID
 
-	    } else if ("unlike".equals(action)) { // 댓글 좋아요 취소 처리
-	        String commentIdx = req.getParameter("commentIdx");
+		        // 댓글에 이미 좋아요를 눌렀는지 확인
+		        boolean hasLiked = commentDao.hasLiked(Integer.parseInt(commentIdx), userId);
 
-	        if (commentIdx != null) {
-	            // 댓글 좋아요 1 감소
-	            int result = commentDao.decreaseLikes(Integer.parseInt(commentIdx));
-	            if (result > 0) {
-	                // 좋아요 취소 후, 댓글 목록 갱신
-	                commentList = commentDao.selectList(map);
-	                req.setAttribute("commentList", commentList);
-	            } else {
-	                req.setAttribute("error", "댓글 좋아요 취소 처리에 실패했습니다.");
-	            }
-	        }
+		        req.setAttribute("hasLiked", hasLiked);
+		        if (hasLiked) {
+		            req.setAttribute("error", "이미 좋아요를 누른 댓글입니다.");
+		        } else {
+		            int result = commentDao.increaseLikesForUser(Integer.parseInt(commentIdx), userId);
+		            if (result > 0) {
+		                // 좋아요 후, 댓글 목록 갱신
+		                commentList = commentDao.selectList(map);
+		                req.setAttribute("commentList", commentList);
+		            } else {
+		                req.setAttribute("error", "댓글 좋아요 처리에 실패했습니다.");
+		            }
+		        }
+		    }
 
-	        req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+		}
 
-	    } else {
+		else if ("unlike".equals(action)) { // 댓글 좋아요 취소 처리
+		    String commentIdx = req.getParameter("commentIdx");
+
+		    // 세션에서 로그인한 사용자 확인
+		    HttpSession session = req.getSession();
+		    MemberDTO user = (MemberDTO) session.getAttribute("user");
+
+		    if (user == null) { // 로그인하지 않은 사용자
+		        req.setAttribute("error", "로그인 후 이용해주세요.");
+		    } else if (commentIdx != null) {
+		        String userId = user.getId(); // 로그인한 사용자의 ID
+
+		        // 댓글에 좋아요를 눌렀는지 확인
+		        boolean hasLiked = commentDao.hasLiked(Integer.parseInt(commentIdx), userId);
+
+		        if (!hasLiked) {
+		            req.setAttribute("error", "좋아요를 누른 아이디가 아닙니다.");
+		        } else {
+		            int result = commentDao.decreaseLikesForUser(Integer.parseInt(commentIdx), userId);
+		            if (result > 0) {
+		                // 좋아요 취소 후, 댓글 목록 갱신
+		                commentList = commentDao.selectList(map);
+		                req.setAttribute("commentList", commentList);
+		            } else {
+		                req.setAttribute("error", "댓글 좋아요 취소 처리에 실패했습니다.");
+		            }
+		        }
+		    }
+
+		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+		} else {
 		    // 기본 페이지 요청 처리
 		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
 		}
