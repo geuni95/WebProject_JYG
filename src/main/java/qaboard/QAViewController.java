@@ -128,15 +128,15 @@ public class QAViewController extends HttpServlet {
 		} else if ("edit".equals(action)) { // 댓글 수정 처리
 		    String commentIdx = req.getParameter("commentIdx");
 		    String content = req.getParameter("content");
-		    String id = req.getParameter("id");
 		    
 		    HttpSession session = req.getSession();
 		    MemberDTO user = (MemberDTO) session.getAttribute("user");
-		    if (commentIdx != null && content != null) {
+		    
+		    if (commentIdx != null && content != null && user != null) {
 		        // 댓글 수정 처리
-		        QACommentDTO commentDto = new QACommentDTO();
-		        commentDto.setIdx(Integer.parseInt(commentIdx));
-		        if (commentDto.getId().equals(user.getId())) {
+		        QACommentDTO commentDto = commentDao.selectView(Integer.parseInt(commentIdx));
+		        
+		        if (commentDto != null && commentDto.getId() != null && commentDto.getId().equals(user.getId())) {
 		        	commentDto.setContent(content);
 		        	int result = commentDao.updateComment(commentDto);
 
