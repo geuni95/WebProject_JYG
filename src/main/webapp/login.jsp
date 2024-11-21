@@ -25,7 +25,7 @@
 
 	</head>
 	<body>
-	
+
 		<script>
 	function validateForm(form){
 		if (form.id.value ==""){
@@ -95,7 +95,12 @@
 								<div class="contact-form">
 									<h2 class="section-title">LOGIN</h2>
 									<p>if you want see board, login here!!</p>
-
+									
+								    <!-- 로그인 오류 메시지가 있으면 출력 -->
+								    <c:if test="${not empty LoginErrMsg}">
+								        <p style="color: red; font-weight: bold;">${LoginErrMsg}</p>
+								    </c:if>
+    
 									<form name = "loginForm" method = "post" 
 										action="LoginProcess.do" onsubmit="return validateForm(this);">
 										<input type="text" name="id" placeholder="ID..">
