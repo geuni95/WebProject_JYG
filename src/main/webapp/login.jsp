@@ -108,7 +108,7 @@
 										<p class="text-right">
 											<button type="submit">로그인</button>
 											<a href="findlogin.jsp" style="text-decoration: none;">
-							                <button type="button" class="btn btn-link">비밀번호 찾기</button>
+							                <button type="button" class="btn btn-link">ID/PASS 찾기</button>
 							            	</a>
 										</p>
 									</form>

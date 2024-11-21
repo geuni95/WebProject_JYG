@@ -103,13 +103,12 @@
 								    
 								        <!-- 비밀번호 찾기 폼 -->
 								        <form name="FindloginForm" method="post" action="findprocess.do" onsubmit="return validateForm(this);">
-								            <label for="id">아이디:</label>
-								            <input type="text" id="id" name="id" placeholder="찾을 아이디를 입력..">
+								            <label for="name">이름:</label>
+								            <input type="text" id="name" name="name" placeholder="찾을 아이디의 이름...">
+								            <label for="email">이메일:</label>
+								            <input type="text" id="email" name="email" placeholder="찾을 아이디의 이메일...">
 								            <p class="text-right">
-												<a href="findId.jsp" style="text-decoration: none;">
-								                <button type="button" class="btn btn-link">ID찾기</button>
-								            	</a>
-								                <button type="submit">비밀번호 찾기</button>
+								                <button type="submit">아이디 찾기</button>
 								            </p>
 								        </form>
 								    </div>

@@ -44,6 +44,7 @@ public class MemberDAO extends DBConnPool {
 		String query = "SELECT * FROM member WHERE id=? and pass=?";
 		
 		try {
+	        System.out.println("쿼리 실행: " + query);
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, uid);
 			psmt.setString(2, upass);
@@ -55,6 +56,7 @@ public class MemberDAO extends DBConnPool {
                 dto.setName(rs.getString("name"));
                 dto.setEmail(rs.getString("email"));
                 dto.setPhone(rs.getString("phone"));
+                System.out.println("아이디: " + dto.getId() + ", 비밀번호: " + dto.getPass());
 			}
 		}
 		catch (Exception e) {
@@ -63,7 +65,59 @@ public class MemberDAO extends DBConnPool {
 		
 		return dto;
 	}
-
+	public MemberDTO getIdMemberDTO(String uid) {
+		
+		MemberDTO dto = new MemberDTO();
+		
+		String query = "SELECT * FROM member WHERE id=?";
+		
+		try {
+	        System.out.println("쿼리 실행: " + query);
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, uid);
+			rs = psmt.executeQuery();
+			
+			if (rs.next()) {
+				dto.setId(rs.getString("id"));
+				dto.setPass(rs.getString("pass"));
+                dto.setName(rs.getString("name"));
+                dto.setEmail(rs.getString("email"));
+                dto.setPhone(rs.getString("phone"));
+                System.out.println("아이디: " + dto.getId() + ", 비밀번호: " + dto.getPass());
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+    // 이름과 이메일로 아이디를 찾는 메서드
+    public MemberDTO getMemberByNameAndEmail(String name, String email) {
+        MemberDTO dto = null;
+        
+        // 이름과 이메일을 통해 사용자를 찾기 위한 쿼리
+        String query = "SELECT * FROM member WHERE name=? AND email=?";
+        
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, name);   // 이름 조건
+            psmt.setString(2, email);  // 이메일 조건
+            rs = psmt.executeQuery();
+            
+            // 결과가 있으면 아이디를 반환
+            if (rs.next()) {
+                dto = new MemberDTO();
+                dto.setId(rs.getString("id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return dto;  // 아이디가 있으면 MemberDTO 객체 반환, 없으면 null
+    }
+	
 	public boolean updateMember(MemberDTO memberDTO) {
         String query = "UPDATE member SET name=?, email=?, phone=? WHERE id=?";
         try {
