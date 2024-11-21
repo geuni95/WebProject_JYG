@@ -206,4 +206,37 @@ public class QACommentDAO extends DBConnPool {
         }
         return totalComments;
     }
+    
+    // 댓글의 좋아요 수 1 증가
+    public int increaseLikes(int commentIdx) {
+        int result = 0;
+        String query = "UPDATE qacomment SET likes = likes + 1 WHERE idx = ?";
+
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setInt(1, commentIdx);
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("댓글 좋아요 증가 중 예외 발생");
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    // 댓글의 좋아요 수 1 감소
+    public int decreaseLikes(int commentIdx) {
+        int result = 0;
+        String query = "UPDATE qacomment SET likes = likes - 1 WHERE idx = ?";
+
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setInt(1, commentIdx);
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("댓글 좋아요 감소 중 예외 발생");
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
 }

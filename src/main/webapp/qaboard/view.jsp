@@ -158,6 +158,18 @@
 						            <div class="comment-body">
 						                <p>${comment.content}</p>
 						            </div>
+							        <!-- 댓글 좋아요 버튼 -->
+							        <div class="comment-actions">
+							        <c:choose>
+							        	<c:when test="${ comment.likes > 0}">
+					                        <a href="qaview.do?action=unlike&commentIdx=${comment.idx}">좋아요 취소</a>
+					                    </c:when>
+					                    <c:otherwise>
+					                        <a href="qaview.do?action=like&commentIdx=${comment.idx}">좋아요</a>
+					                    </c:otherwise>
+					                </c:choose>
+					                <span>${comment.likes}명의 좋아요👍🏻</span> <!-- 좋아요 수 -->
+					            </div>
 						            
 						            <!-- 댓글 수정 및 삭제 버튼 -->
 						            <c:if test="${comment.isDeleted != 'Y' && sessionScope.user != null && sessionScope.user.id == comment.id}">

@@ -167,7 +167,41 @@ public class QAViewController extends HttpServlet {
 
 		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
 
-		} else {
+		} else if ("like".equals(action)) { // 댓글 좋아요 처리
+			
+	        String commentIdx = req.getParameter("commentIdx");
+
+	        if (commentIdx != null) {
+	            int result = commentDao.increaseLikes(Integer.parseInt(commentIdx));
+	            if (result > 0) {
+	                // 좋아요 후, 댓글 목록 갱신
+	                commentList = commentDao.selectList(map);
+	                req.setAttribute("commentList", commentList);
+	            } else {
+	                req.setAttribute("error", "댓글 좋아요 처리에 실패했습니다.");
+	            }
+	        }
+
+	        req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+
+	    } else if ("unlike".equals(action)) { // 댓글 좋아요 취소 처리
+	        String commentIdx = req.getParameter("commentIdx");
+
+	        if (commentIdx != null) {
+	            // 댓글 좋아요 1 감소
+	            int result = commentDao.decreaseLikes(Integer.parseInt(commentIdx));
+	            if (result > 0) {
+	                // 좋아요 취소 후, 댓글 목록 갱신
+	                commentList = commentDao.selectList(map);
+	                req.setAttribute("commentList", commentList);
+	            } else {
+	                req.setAttribute("error", "댓글 좋아요 취소 처리에 실패했습니다.");
+	            }
+	        }
+
+	        req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
+
+	    } else {
 		    // 기본 페이지 요청 처리
 		    req.getRequestDispatcher("qaboard/view.jsp").forward(req, resp);
 		}
