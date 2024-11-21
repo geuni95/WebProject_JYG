@@ -33,11 +33,6 @@
 			form.id.focus();
 			return false;
 		}
-		if (form.pass.value == ""){
-			alert("패스워드를 입력하세요.");
-			form.pass.focus();
-			return false;
-		}
 </script>
 
 		<div id="site-content">
@@ -93,25 +88,28 @@
 							</div>
 							<div class="col-md-3 col-md-offset-1">
 								<div class="contact-form">
-									<h2 class="section-title">LOGIN</h2>
-									<p>if you want see board, login here!!</p>
+									<h2 class="section-title">비밀번호 찾기</h2>
 									
-								    <!-- 로그인 오류 메시지가 있으면 출력 -->
-								    <c:if test="${not empty LoginErrMsg}">
-								        <p style="color: red; font-weight: bold;">${LoginErrMsg}</p>
-								    </c:if>
-    
-									<form name = "loginForm" method = "post" 
-										action="LoginProcess.do" onsubmit="return validateForm(this);">
-										<input type="text" name="id" placeholder="ID..">
-										<input type="text" name="pass" placeholder="Password..">
-										<p class="text-right">
-											<button type="submit">로그인</button>
-											<a href="findlogin.jsp" style="text-decoration: none;">
-							                <button type="button" class="btn btn-link">비밀번호 찾기</button>
-							            	</a>
-										</p>
-									</form>
+								    <div class="form-container">
+								        <!-- 오류 메시지가 있을 경우 출력 -->
+								        <c:if test="${not empty error}">
+								            <p class="error-message">${error}</p>
+								        </c:if>
+								
+								        <!-- 성공 메시지가 있을 경우 출력 -->
+								        <c:if test="${not empty successMessage}">
+								            <p class="success-message">${successMessage}</p>
+								        </c:if>
+								    
+								        <!-- 비밀번호 찾기 폼 -->
+								        <form name="FindloginForm" method="post" action="findprocess.do" onsubmit="return validateForm(this);">
+								            <label for="id">아이디:</label>
+								            <input type="text" id="id" name="id" placeholder="찾을 아이디를 입력..">
+								            <p class="text-right">
+								                <button type="submit">비밀번호 찾기</button>
+								            </p>
+								        </form>
+								    </div>
 								</div>
 							</div>
 						</div>
