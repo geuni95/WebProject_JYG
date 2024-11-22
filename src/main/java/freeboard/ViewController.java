@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import utils.ViewManager;
+import utils.FreeViewManager;
 
 public class ViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@ public class ViewController extends HttpServlet {
 			throws ServletException, IOException {
 	String idx = req.getParameter("idx");
 	
-	boolean isView = ViewManager.handlePostView(req, resp, idx);
+	boolean isView = FreeViewManager.handlePostView(req, resp, idx);
 	
 	if (isView) {
 		System.out.println("게시물 조회수 증가: " + idx);

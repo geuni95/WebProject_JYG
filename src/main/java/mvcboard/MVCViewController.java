@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.MVCViewManager;
 
 @WebServlet("/mvcview.do")
 public class MVCViewController extends HttpServlet {
@@ -18,7 +19,13 @@ public class MVCViewController extends HttpServlet {
 	MVCBoardDAO dao = new MVCBoardDAO();
 	String idx = req.getParameter("idx");
 	
-	dao.updateVisitCount(idx);
+	boolean isView = MVCViewManager.handlePostView(req, resp, idx);
+	
+	if (isView) {
+		System.out.println("게시물 조회수 증가: " + idx);
+	} else {
+		System.out.println("이미 조회한 게시물입니다. 조회수가 증가되지 않았습니다.");
+	}
 	MVCBoardDTO dto = dao.selectView(idx);
 	
 	dao.close();

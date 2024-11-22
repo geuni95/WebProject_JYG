@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import membership.MemberDTO;
 import utils.JSFunction;
+import utils.QAViewManager;
 
 @WebServlet("/qaview.do")
 public class QAViewController extends HttpServlet {
@@ -24,7 +25,13 @@ public class QAViewController extends HttpServlet {
 		QABoardDAO dao = new QABoardDAO();
 		String idx = req.getParameter("idx");
 		
-		dao.updateVisitCount(idx);
+		boolean isView = QAViewManager.handlePostView(req, resp, idx);
+		
+		if (isView) {
+			System.out.println("게시물 조회수 증가: " + idx);
+		} else {
+			System.out.println("이미 조회한 게시물입니다. 조회수가 증가되지 않았습니다.");
+		}
 		QABoardDTO dto = dao.selectView(idx);
 		
 		dao.close();
