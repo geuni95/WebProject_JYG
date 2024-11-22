@@ -90,7 +90,7 @@
 						</div>
 					</li>
 					<li data-bg-image="images/downloadboard.jpg">
-						<a href="./qalist.do"/>
+						<a href="./mvclist.do"/>
 						<div class="container">
 							<div class="slide-title">
 								<span>download</span> <br>
