@@ -34,7 +34,8 @@ public class JoinProcess extends HttpServlet{
 		dao.insertLogin(dto);
 		dao.close();
 		
-		resp.sendRedirect("index.jyg");
+		req.setAttribute("successMessage", "회원가입하셨습니다.");
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
 		
 		
 	}

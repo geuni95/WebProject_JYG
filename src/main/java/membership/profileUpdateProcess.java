@@ -40,10 +40,11 @@ public class profileUpdateProcess extends HttpServlet{
             if (success) {
                 // 수정 성공: 세션에 반영된 데이터 다시 저장
                 session.setAttribute("user", user);
-                resp.sendRedirect("index.jsp");
+    			req.setAttribute("successMessage", "프로필 수정 성공하셨습니다.");
+                req.getRequestDispatcher("index.jsp").forward(req, resp);
             } else {
                 // 수정 실패: 오류 메시지와 함께 다시 폼으로 돌아가기
-                req.setAttribute("errorMsg", "회원 정보 수정에 실패했습니다.");
+                req.setAttribute("error", "회원 정보 수정에 실패했습니다.");
                 req.getRequestDispatcher("profile.jsp").forward(req, resp);
             }
 

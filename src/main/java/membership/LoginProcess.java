@@ -28,10 +28,11 @@ public class LoginProcess extends HttpServlet{
         if (dto.getId() != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", dto);
-            resp.sendRedirect("index.jsp");
+			req.setAttribute("successMessage", "로그인 성공하셨습니다.");
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
 		else{
-			req.setAttribute("LoginErrMsg", "로그인 오류입니다.");
+			req.setAttribute("error", "로그인 오류입니다.");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
 		}
 		

@@ -23,6 +23,17 @@
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
 
+	    <script type="text/javascript">
+	        // 메시지가 있을 경우 다이얼로그 띄우기
+	        <c:if test="${not empty successMessage}">
+	            alert('${successMessage}');
+	        </c:if>
+	
+	        <c:if test="${not empty error}">
+	            alert('${error}');
+	        </c:if>
+    	</script>
+    	
 	</head>
 
 

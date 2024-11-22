@@ -1,5 +1,6 @@
 <%@page import="membership.MemberDAO"%>
 <%@page import="membership.MemberDTO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,22 +24,33 @@
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
 
+	    <script type="text/javascript">
+	        // 메시지가 있을 경우 다이얼로그 띄우기
+	        <c:if test="${not empty successMessage}">
+	            alert('${successMessage}');
+	        </c:if>
+	
+	        <c:if test="${not empty error}">
+	            alert('${error}');
+	        </c:if>
+    	</script>
+        
+        <script>
+            function validateForm(form){
+                if (form.id.value ==""){
+                    alert("아이디를 입력하세요.");
+                    form.id.focus();
+                    return false;
+                }
+                if (form.pass.value == ""){
+                    alert("패스워드를 입력하세요.");
+                    form.pass.focus();
+                    return false;
+                }
+            }
+        </script>
 	</head>
 	<body>
-
-		<script>
-	function validateForm(form){
-		if (form.id.value ==""){
-			alert("아이디를 입력하세요.");
-			form.id.focus();
-			return false;
-		}
-		if (form.pass.value == ""){
-			alert("패스워드를 입력하세요.");
-			form.pass.focus();
-			return false;
-		}
-</script>
 
 		<div id="site-content">
 			<div class="site-header">
@@ -96,10 +108,7 @@
 									<h2 class="section-title">LOGIN</h2>
 									<p>if you want see board, login here!!</p>
 									
-								    <!-- 로그인 오류 메시지가 있으면 출력 -->
-								    <c:if test="${not empty LoginErrMsg}">
-								        <p style="color: red; font-weight: bold;">${LoginErrMsg}</p>
-								    </c:if>
+								    
     
 									<form name = "loginForm" method = "post" 
 										action="LoginProcess.do" onsubmit="return validateForm(this);">
