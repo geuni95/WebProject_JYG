@@ -23,17 +23,23 @@
 		<script src="js/ie-support/respond.js"></script>
 		<![endif]-->
 
+       <script>
+            function validateForm(form){
+                if (form.name.value ==""){
+                    alert("이름를 입력하세요.");
+                    form.name.focus();
+                    return false;
+                }
+                if (form.email.value == ""){
+                    alert("이메일를 입력하세요.");
+                    form.email.focus();
+                    return false;
+                }
+            }
+        </script>
+        
 	</head>
 	<body>
-
-		<script>
-	function validateForm(form){
-		if (form.id.value ==""){
-			alert("아이디를 입력하세요.");
-			form.id.focus();
-			return false;
-		}
-</script>
 
 		<div id="site-content">
 			<div class="site-header">
