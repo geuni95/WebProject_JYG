@@ -157,7 +157,7 @@
 						        <div class="comment-item">
 						            <div class="comment-header">
 						                <div class="comment-info">
-						                    <strong>${comment.id}</strong> <span>${comment.postdate}</span>
+						                    <br/><strong>${comment.id}</strong> <span>${comment.postdate}</span>
 						                </div>
 						            </div>
 						            <div class="comment-body">

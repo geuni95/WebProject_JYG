@@ -22,7 +22,7 @@ public class NaverSMTP {
         serverInfo = new Properties();
         
         serverInfo.put("mail.smtp.host", "smtp.naver.com");
-        serverInfo.put("mail.smtp.port", "465");  // STARTTLS 사용을 위한 포트 587
+        serverInfo.put("mail.smtp.port", "465");
         serverInfo.put("mail.smtp.auth", "true");
         serverInfo.put("mail.smtp.starttls.enable", "true");  // STARTTLS 활성화
         serverInfo.put("mail.smtp.debug", "true");
