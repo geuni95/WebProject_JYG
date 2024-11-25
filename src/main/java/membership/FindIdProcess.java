@@ -58,7 +58,7 @@ public class FindIdProcess extends HttpServlet{
                 req.getRequestDispatcher("/findlogin.jsp").forward(req, resp);
             }
         } else {
-            req.setAttribute("error", "아이디와 이름과 이메일을 모두 입력해주세요.");
+            req.setAttribute("error", "아이디를 입력해주세요.");
             req.getRequestDispatcher("/findlogin.jsp").forward(req, resp);
         }
     }
